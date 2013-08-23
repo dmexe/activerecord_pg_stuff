@@ -11,6 +11,7 @@ RSpec.configure do |c|
   end
 
   c.before(:all) do
+    conn.execute 'CREATE EXTENSION IF NOT EXISTS tablefunc'
     conn.execute "CREATE TABLE sellers (id integer, name varchar)"
     conn.execute "INSERT INTO sellers VALUES(1, 'foo'), (2, 'bar'), (3, 'baz')"
 

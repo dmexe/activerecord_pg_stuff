@@ -2,6 +2,8 @@
 
 Adds support for working with temporary tables and pivot tables (PostgreSQL only).
 
+* [![Build Status](https://travis-ci.org/dima-exe/activerecord_pg_stuff.png?branch=master)](https://travis-ci.org/dima-exe/activerecord_pg_stuff)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,13 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-##### Temporary tables
+#### Temporary tables
+
+Example:
 
     User.select(:id, :email).temporary_table do |rel|
       rel.pluck(:id)
     end
 
-##### Pivot tables
+#### Pivot tables
+
+Before using, you need to create the extension:
+
+    CREATE EXTENSION tablefunc
+
+Example:
 
     CREATE TABLE payments (id integer, amount integer, seller_id integer, created_at timestamp)
     INSERT INTO payments
