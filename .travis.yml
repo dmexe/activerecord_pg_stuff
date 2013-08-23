@@ -1,0 +1,5 @@
+env:
+  global:
+    - DATABASE_URL=postgresql://postgres@localhost
+
+script: bundle exec rake

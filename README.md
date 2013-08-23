@@ -1,4 +1,4 @@
-# ActiverecordPgStuff
+# ActiveRecordPgStuff
 
 Adds support for working with temporary tables and pivot tables (PostgreSQL only).
 
