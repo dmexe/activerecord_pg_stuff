@@ -9,7 +9,7 @@ describe ActiveRecordPgStuff::Connection::TemporaryTable do
       rs = conn.with_temporary_table 'sellers_tmp', sql do |name|
         conn.select_all("SELECT * FROM #{name}").to_a.map(&:values)
       end
-      expect(rs).to eq [%w{1 foo}, %w{2 bar}]
+      expect(rs).to eq [[1, "foo"], [2, "bar"]]
       expect {
         conn.execute 'SELECT * FROM sellers_tmp'
       }.to raise_error(ActiveRecord::StatementInvalid, /PG::UndefinedTable/)
@@ -22,7 +22,7 @@ describe ActiveRecordPgStuff::Connection::TemporaryTable do
           conn.select_all("SELECT * FROM #{name_nested}").to_a.map(&:values)
         end
       end
-      expect(rs).to eq [%w{1 foo}]
+      expect(rs).to eq [[1, "foo"]]
       expect {
         conn.execute 'SELECT * FROM sellers_tmp'
       }.to raise_error(ActiveRecord::StatementInvalid, /PG::UndefinedTable/)

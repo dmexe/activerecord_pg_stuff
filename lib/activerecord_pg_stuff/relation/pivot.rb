@@ -17,7 +17,7 @@ module ActiveRecordPgStuff
         def result_to_array(result)
           result.to_hash.map do |h|
             result.columns.inject([]) do |a, col|
-              a << result.column_types[col].type_cast(h[col])
+              a << result.column_types[col].cast(h[col])
             end
           end
         end
@@ -26,8 +26,7 @@ module ActiveRecordPgStuff
     module Pivot
 
       def pivot(row_id, col_id, val_id)
-
-        types_sql = %{ SELECT column_name, data_type FROM information_schema.columns WHERE table_name = #{connection.quote self.table_name} AND column_name IN (#{connection.quote row_id},#{connection.quote val_id}) }
+        types_sql = %{ SELECT column_name, data_type FROM information_schema.columns WHERE table_name = #{connection.quote self.table.name} AND column_name IN (#{connection.quote row_id},#{connection.quote val_id}) }
         types = connection.select_all types_sql
         types = types.to_a.map(&:values).inject({}) do |a, v|
           a[v[0]] = v[1]
