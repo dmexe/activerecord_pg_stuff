@@ -27,14 +27,20 @@ module ActiveRecordPgStuff
       def temporary_table
         tname = "temporary_#{self.table.name}_#{self.object_id}"
         self.klass.connection.with_temporary_table tname, self.to_sql do |name|
-          dec     = Decorator.new self.klass, name
-          rel     = ActiveRecord::Relation.new dec, table: dec.arel_table
+          dec = Decorator.new self.klass, name
+          if activerecord52?
+            rel = ActiveRecord::Relation.new dec
+          else
+            rel = ActiveRecord::Relation.new dec, dec.arel_table, dec.predicate_builder, {}
+          end
           rel.readonly!
           yield rel
         end
       end
 
+      def activerecord52?
+        ActiveRecord.gem_version >= Gem::Version.new("5.2.x")
+      end
     end
-
   end
 end
