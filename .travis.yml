@@ -1,6 +1,10 @@
 rvm:
 - 2.2.2
 
+gemfile:
+- gemfiles/activerecord_5.1.gemfile
+- gemfiles/activerecord_5.2.gemfile
+
 env:
   global:
     - DATABASE_URL=postgresql://postgres@localhost
